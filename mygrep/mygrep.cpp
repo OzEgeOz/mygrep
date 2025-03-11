@@ -27,7 +27,7 @@ int etsiMerkkijono(const string& kohde, const string& haku, bool caseInsensitive
     }
 }
 
-// Funktio, joka tarkistaa, sisältääkö rivi kaikki hakusanat (AND-logiikka)
+// Funktio, joka tarkistaa, sisaltaako rivi kaikki hakusanat (AND-logiikka)
 bool sisaltaaKaikki(const string& rivi, const vector<string>& hakusanat, bool caseInsensitive) {
     for (const string& haku : hakusanat) {
         if (etsiMerkkijono(rivi, haku, caseInsensitive) == -1) {
@@ -37,7 +37,7 @@ bool sisaltaaKaikki(const string& rivi, const vector<string>& hakusanat, bool ca
     return true;
 }
 
-// Funktio, joka tarkistaa, sisältääkö rivi jonkin hakusanoista (OR-logiikka)
+// Funktio, joka tarkistaa, sisaltaako rivi jonkin hakusanoista (OR-logiikka)
 bool sisaltaaJonkin(const string& rivi, const vector<string>& hakusanat, bool caseInsensitive) {
     for (const string& haku : hakusanat) {
         if (etsiMerkkijono(rivi, haku, caseInsensitive) != -1) {
@@ -47,23 +47,23 @@ bool sisaltaaJonkin(const string& rivi, const vector<string>& hakusanat, bool ca
     return false;
 }
 
-// Pääohjelma:
+// Paaohjelma:
 int main(int argc, char* argv[]) {
-    // Tarkistetaan, että komentoriviargumentteja on riittävästi
+    // Tarkistetaan, etta komentoriviargumentteja on riittavasti
     if (argc < 4) {
-        cout << "Käyttö: " << argv[0] << " [-valinnat] <AND/OR> <hakumerkkijono1> [<hakumerkkijono2> ...] <tiedostonimi>" << endl;
+        cout << "Kaytto: " << argv[0] << " [-valinnat] <AND/OR> <hakumerkkijono1> [<hakumerkkijono2> ...] <tiedostonimi>" << endl;
         cout << "Valinnat:" << endl;
         cout << "  -l  Tulosta rivinumerot" << endl;
-        cout << "  -o  Tulosta löytyneiden rivien lukumäärä" << endl;
-        cout << "  -r  Käänteinen haku (etsi rivit, jotka eivät sisällä hakusanaa)" << endl;
-        cout << "  -i  Ei eroa isoilla ja pienillä kirjaimilla" << endl;
+        cout << "  -o  Tulosta loytyneiden rivien lukumaara" << endl;
+        cout << "  -r  Kaanteinen haku (etsi rivit, jotka eivat sisalla hakusanaa)" << endl;
+        cout << "  -i  Ei eroa isoilla ja pienilla kirjaimilla" << endl;
         return EXIT_FAILURE;
     }
 
     // Muuttujat valintojen tallentamiseen
     bool tulostaRivinumerot = false;
     bool tulostaLukumaarat = false;
-    bool käänteinenHaku = false;
+    bool kaanteinenHaku = false;
     bool caseInsensitive = false;
     int hakuArgIndeksi = 1;
 
@@ -78,7 +78,7 @@ int main(int argc, char* argv[]) {
                 tulostaLukumaarat = true;
             }
             else if (valinta == 'r') {
-                käänteinenHaku = true;
+                kaanteinenHaku = true;
             }
             else if (valinta == 'i') {
                 caseInsensitive = true;
@@ -87,9 +87,9 @@ int main(int argc, char* argv[]) {
         hakuArgIndeksi = 2;
     }
 
-    // Varmistetaan, että komentoriviargumentteja on riittävästi hakusanoille ja tiedostonimelle
+    // Varmistetaan, etta komentoriviargumentteja on riittavasti hakusanoille ja tiedostonimelle
     if (argc < hakuArgIndeksi + 3) {
-        cout << "Käyttö: " << argv[0] << " [-valinnat] <AND/OR> <hakumerkkijono1> [<hakumerkkijono2> ...] <tiedostonimi>" << endl;
+        cout << "Kaytto: " << argv[0] << " [-valinnat] <AND/OR> <hakumerkkijono1> [<hakumerkkijono2> ...] <tiedostonimi>" << endl;
         return EXIT_FAILURE;
     }
 
@@ -119,7 +119,7 @@ int main(int argc, char* argv[]) {
     while (getline(tiedosto, rivi)) {
         rivinumero++;
         bool loytyy = (logiikka == "AND") ? sisaltaaKaikki(rivi, hakusanat, caseInsensitive) : sisaltaaJonkin(rivi, hakusanat, caseInsensitive);
-        if (käänteinenHaku) {
+        if (kaanteinenHaku) {
             loytyy = !loytyy;
         }
         if (loytyy) {
@@ -132,7 +132,7 @@ int main(int argc, char* argv[]) {
     }
 
     if (tulostaLukumaarat) {
-        cout << "Rivit, jotka " << (käänteinenHaku ? "eivät " : "") << "sisältävät ";
+        cout << "Rivit, jotka " << (kaanteinenHaku ? "eivat " : "") << "sisaltavat ";
         for (const string& haku : hakusanat) {
             cout << "\"" << haku << "\" ";
         }
